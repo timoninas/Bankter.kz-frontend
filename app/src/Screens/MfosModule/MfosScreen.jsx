@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import UserCard from '../../Components/UserCard';
+import MfoItem from "../../Components/MfoItem/MfoItem";
+import classes from "./MfosScreen.module.css";
 
 const UserScreen = () => {
     const [user, setUser] = useState(null);
@@ -26,9 +27,10 @@ const UserScreen = () => {
     }
 
     return (
-        <div className="user-screen">
+        <div className={classes.userScreen}>
             <h1>Профиль пользователя</h1>
-            <UserCard userProps = {user} />
+            <MfoItem props = {user} />
+            <MfoItem props = {user} />
         </div>
     );
 };
