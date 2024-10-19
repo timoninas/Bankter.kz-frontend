@@ -6,27 +6,25 @@ const MfoItem = ({props}) => {
     return (
         <div className={classes.mfoCard}>
             <div className={classes.mfoHeader}>
-                <img src={props.avatarUrl} alt={props.name} className={classes.mfoAvatar}/>
+                <img src={props.imageUrl} alt={props.name} className={classes.mfoAvatar}/>
                 <div className={classes.mfoTexts}>
-                    <div className={classes.mfoTitle}>Kaspi bank</div>
-                    <div className={classes.mfoSubtitle}>Лучшие потребительские кредиты</div>
+                    <div className={classes.mfoTitle}>{props.title}</div>
+                    <div className={classes.mfoSubtitle}>{props.subtitle}</div>
                 </div>
             </div>
-            <ul>
-                <li>
-                    <div className={classes.mfoFeatureTitle}>Ставка</div>
-                    <div className={classes.mfoFeatureSubtitle}>18.9%</div>
-                </li>
-                <li>
-                    <div className={classes.mfoFeatureTitle}>Срок</div>
-                    <div className={classes.mfoFeatureSubtitle}>от 6 месяцев</div>
-                </li>
-                <li>
-                    <div className={classes.mfoFeatureTitle}>Сумма</div>
-                    <div className={classes.mfoFeatureSubtitle}>800.000 тенге — 5 млн тенге</div>
-                </li>
-            </ul>
-            <Button props={ {title:"Перейти" } } />
+            {props.features && props.features.length > 0 && (
+                <ul>
+                    {props.features.map((feature, index) => (
+                        <li key={index}>
+                            <div className={classes.mfoFeatureTitle}>{feature.title}</div>
+                            <div className={classes.mfoFeatureSubtitle}>{feature.subtitle}</div>
+                        </li>
+                    ))}
+                </ul>
+            )}
+            {props.button && (
+                <Button href="http://localhost:3000/mfo/1" props={{title: props.button.title, link: props.button.link}} />
+            )}
         </div>
     );
 };

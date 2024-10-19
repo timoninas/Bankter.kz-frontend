@@ -3,7 +3,7 @@ import classes from "./Button.module.css";
 
 const Button = ({props}) => {
     return (
-        <button className={classes.buttonBackground}>
+        <button onClick={() => window.location.href = props.link}  className={classes.buttonBackground}>
             <div className={classes.buttonTitle}>
                 { props.title }
             </div>
