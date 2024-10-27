@@ -4,11 +4,18 @@ import classes from "./Header.module.css";
 const Header = ({props}) => {
     return (
         <div className={classes.header}>
-            <div className={classes.logo}>bankter.kz</div>
-            { props.texts && (
+            <a className={classes.linkLogo} href="/">
+                <div className={classes.logo}>bankter.kz</div>
+            </a>
+            {props.texts && (
                 <div className={classes.texts}>
                     {props.texts.map((textItem, index) => (
-                        <a className={classes.text} href={textItem.link}>{textItem.title}</a>
+                        <a
+                            className={classes.text}
+                            href={textItem.link}
+                            key={index}
+                        >{textItem.title}
+                        </a>
                     ))}
                 </div>
             )}
@@ -19,7 +26,10 @@ const Header = ({props}) => {
                         props.buttons.map((button, index) => (
                             <button
                                 className={(button.isActive === true ? classes.buttonActive : classes.button)}
-                                onClick={() => { button.onActive() }}
+                                onClick={() => {
+                                    button.onActive()
+                                }}
+                                key={index}
                             >
                                 {button.title}
                             </button>

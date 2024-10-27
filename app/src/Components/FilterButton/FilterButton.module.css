@@ -1,0 +1,15 @@
+.buttonBackground {
+    background-color: #70C58F;
+    padding: 12px;
+    border-radius: 10px;
+    border: 0 solid #900;
+    user-select: none;
+}
+
+.buttonTitle {
+    font-style: normal;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    font-size: 1.0rem;
+    color: #FFFFFF;
+}
