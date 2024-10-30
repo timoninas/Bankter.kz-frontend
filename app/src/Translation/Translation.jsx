@@ -9,13 +9,35 @@ i18next
         ru: {
             translation: {
                 credits: "Кредиты",
-                helloWorld: "Привет мир"
+                sum: "Сумма",
+                sumTenge: "Сумма в тенге",
+                tenge: "тенге",
+                pereiti: "Перейти",
+                stavka: "Ставка",
+                srok: "Срок",
+                filters: "Фильтры",
+                inputValue: "Введите значение",
+                helloWorld: "Привет мир",
+                months: "месяца",
+                apply: "Применить",
+                years14: "Можно взять с 14 лет"
             }
         },
         kz: {
             translation: {
                 credits: "Несиелер",
-                helloWorld: "Сәлем Әлем"
+                sum: "Сомасы",
+                sumTenge: "Теңге сомасы",
+                tenge: "теңге",
+                pereiti: "Өту",
+                stavka: "Ставка",
+                srok: "Мерзімі",
+                filters: "Сүзгілер",
+                inputValue: "Мәнді енгізіңіз",
+                helloWorld: "Сәлем Әлем",
+                months: "ай",
+                apply: "Қолдану",
+                years14: "14 жастан бастап алуға болады"
             }
         }
     }

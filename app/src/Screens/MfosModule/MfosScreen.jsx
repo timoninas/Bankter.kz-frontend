@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import MfosSection from "../../Components/MfosSection/MfosSection";
 import Header from "../../Components/Header/Header";
+import Modal from "../../Components/Modal/Modal";
 import classes from "./MfosScreen.module.css";
 import {useTranslation, Trans} from 'react-i18next'
 import FilterButton from "../../Components/FilterButton/FilterButton";
@@ -12,8 +13,45 @@ const lngs = {
     kz: {nativeName: "Қаз"}
 }
 
+const tengeLine = (from, to, lang) => {
+    if (from && to) {
+        if (lang === "ru") {
+            return `от ${from} до ${to} тенге`;
+        } else {
+            return `${from} ден ${to} теңгеге дейін`;
+        }
+    } else {
+        return 'N/A'
+    }
+};
+
+const percentLine = (to, lang) => {
+    if (to) {
+        if (lang === "ru") {
+            return `до ${to}%`;
+        } else {
+            return `${to} дейін%`;
+        }
+    } else {
+        return 'N/A'
+    }
+};
+
+const periodLine = (period_to, lang) => {
+    if (period_to) {
+        if (lang === "ru") {
+            return `от ${period_to} месяцев`;
+        } else {
+            return `${period_to} айдан бастап`;
+        }
+    } else {
+        return 'N/A'
+    }
+};
+
 const UserScreen = () => {
     const [banks, setBanks] = useState([]);
+    const [modal, setModal] = useState(false);
     const {t, i18n} = useTranslation();
 
     useEffect(() => {
@@ -29,7 +67,6 @@ const UserScreen = () => {
                     }
                 });
                 setBanks(response.data.banks);
-                console.log('new request', i18n.resolvedLanguage, response.data.banks)
             } catch (error) {
                 console.error('Ошибка при получении данных:', error);
             }
@@ -42,7 +79,6 @@ const UserScreen = () => {
         return <div>Загрузка...</div>;
     }
 
-    console.log('lang', i18n.resolvedLanguage)
     const buttons = Object.keys(lngs).map((lng) => ({
         title: lngs[lng].nativeName,
         isActive: i18n.resolvedLanguage === lng,
@@ -53,46 +89,67 @@ const UserScreen = () => {
         texts: [
             {
                 title: t("credits"),
-                link: "/mfo/1"
+                link: "/"
             }
         ],
         buttons: buttons
     }
 
-    const kekmfos = banks.map((item) => {
+    const mfos = banks.map((item) => {
         return {
             title: item.name,
-            subtitle: item.description || 'Лучшие потребительские кредиты', // Optional description, default if not present
+            subtitle: item.registration[0],
             imageUrl: item.logo,
             features: [
                 {
-                    title: "Ставка",
-                    subtitle: item.rate_from ? `от ${item.rate_from}%` : 'N/A'
+                    title: t("stavka"),
+                    subtitle: percentLine(item.rate_to, i18n.resolvedLanguage)
                 },
                 {
-                    title: "Срок",
-                    subtitle: item.term ? `от ${item.term} месяцев` : 'N/A'
+                    title: t("srok"),
+                    subtitle: periodLine(item.period_to, i18n.resolvedLanguage)
                 },
                 {
-                    title: item.registration[0],
-                    subtitle: item.amount ? `${item.amount} тенге` : 'N/A'
+                    title: t("sum"),
+                    subtitle: tengeLine(item.amount_from, item.amount_to, i18n.resolvedLanguage)
                 }
             ],
             button: {
-                title: "Перейти",
+                title: t("pereiti"),
                 link: item.url
             }
         };
     });
 
-    console.log('kekmfos', kekmfos);
+    const filterButton = {
+        title: t("filters"),
+        onClick: () => setModal(true),
+    }
+
+    const overlay = {
+        sumTengeTitle: t("sumTenge"),
+        sumTitle: t("sum"),
+        tengeTitle:  t("tenge"),
+        filtersTitle: t("filters"),
+        inputValue: t("inputValue"),
+        srokTitle: t("srok"),
+        monthTitle: t("months"),
+        yearsTitle: t("years14"),
+        applyTitle: t("apply"),
+        onClose: () => setModal(false),
+    }
+
     return (
         <div className={classes.userScreen}>
             <Header props={header}/>
-            <FilterButton />
+            <FilterButton props={filterButton} />
 
-            {kekmfos && kekmfos.length > 0 && (
-                <MfosSection props={{mfoItems: kekmfos}}/>
+            {mfos && mfos.length > 0 && (
+                <MfosSection props={{mfoItems: mfos}}/>
+            )}
+
+            {modal && (
+                <Modal props={overlay}/>
             )}
 
         </div>
